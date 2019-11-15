@@ -19,8 +19,8 @@ int getMessage(int ProcRank, int ProcNum, MPI_Comm MPI_COMM) {
             MPI_Send(&ProcRank, 1, MPI_INT, 0, 0, MPI_COMM);
         }
         if (ProcRank == 0) {
-            MPI_Status Status;
             int temp;
+            MPI_Status Status;
             MPI_Recv(&temp, 1, MPI_INT, rank1, 0, MPI_COMM, &Status);
             MPI_Recv(&message, 1, MPI_INT, rank2, 0, MPI_COMM, &Status);
             message += temp;
