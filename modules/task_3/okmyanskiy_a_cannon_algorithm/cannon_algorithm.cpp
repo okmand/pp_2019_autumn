@@ -5,6 +5,8 @@
 #include <ctime>
 #include <stdexcept>
 #include "../../../modules/task_3/okmyanskiy_a_cannon_algorithm/cannon_algorithm.h"
+
+double eps = 1E-10;
 std::vector<double> getRandomMatrix(int Size) {
     if (Size <= 0) {
         throw std::runtime_error("The size of the matrix <= 0");
@@ -27,7 +29,7 @@ std::vector<double> Add(const std::vector<double> &A, const std::vector<double> 
     return C;
 }
 std::vector<double> Multyplication(const std::vector<double> A, const std::vector<double> B) {
-    if (fabs(A.size() - B.size()) > DBL_EPSILON * fmax(fabs(A.size()), fabs(B.size()))) {
+    if (A.size()!=B.size()) {
         throw std::runtime_error("Matrixes have different sizes");
     }
     std::vector<double> C(A.size());
@@ -44,20 +46,20 @@ std::vector<double> Multyplication(const std::vector<double> A, const std::vecto
 }
 
 std::vector<double> getParallelMultyplication(const std::vector<double> A, const std::vector<double> B) {
-    if (fabs(A.size() - B.size()) > DBL_EPSILON * fmax(fabs(A.size()), fabs(B.size()))) {
+    if (A.size() != B.size()) {
         throw std::runtime_error("Matrixes have different sizes");
     }
     int ProcRank, ProcNum;
     MPI_Status Status;
     MPI_Comm_size(MPI_COMM_WORLD, &ProcNum);
     MPI_Comm_rank(MPI_COMM_WORLD, &ProcRank);
-    if (fabs(sqrt(A.size()) - ProcNum) > DBL_EPSILON * fmax(fabs(sqrt(A.size())), fabs(ProcNum))) {
+    if (fabs(sqrt(A.size()) - ProcNum) > eps) {
         throw std::runtime_error("The size of the matrices and the number of processes are different");
     }
     int Size = ProcNum;
     int root = static_cast<int>(sqrt(Size));
     double root2 = sqrt(Size);
-    if (fabs(root2 - root) > DBL_EPSILON * fmax(fabs(root2), fabs(root))) {
+    if (fabs(root2 - root) > eps) {
         throw std::runtime_error("The square root of a size is not an integer");
     }
     std::vector<double> BlockA(Size);
