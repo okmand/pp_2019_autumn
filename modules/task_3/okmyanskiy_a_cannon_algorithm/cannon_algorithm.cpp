@@ -19,10 +19,12 @@ std::vector<double> getRandomMatrix(int Size) {
     }
     return vec;
 }
-void Add(std::vector<double> &A, std::vector<double> B, int Size) {
+std::vector<double> Add(std::vector<double> &A, std::vector<double> B, int Size) {
+    std::vector<double> C(Size);
     for (int i = 0; i < Size; i++) {
-        A[i] += B[i];
+        C[i] = A[i] + B[i];
     }
+    return C;
 }
 std::vector<double> Multyplication(const std::vector<double> A, const std::vector<double> B) {
     if (fabs(A.size() - B.size()) > DBL_EPSILON * fmax(fabs(A.size()), fabs(B.size()))) {
@@ -123,7 +125,7 @@ std::vector<double> getParallelMultyplication(std::vector<double> A, std::vector
         MPI_Sendrecv_replace(&BlockA[0], 1, type2, left_rank, 0, right_rank, 0, MPI_COMM_WORLD, &Status);
         MPI_Sendrecv_replace(&BlockB[0], 1, type2, up_rank, 1, down_rank, 1, MPI_COMM_WORLD, &Status);
         tempC = Multyplication(BlockA, BlockB);
-        Add(BlockC, tempC, Size);
+        BlockC = Add(BlockC, tempC, Size);
     }
 
     if (ProcRank == 0) {
