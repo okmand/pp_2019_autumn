@@ -21,7 +21,7 @@ std::vector<double> getRandomMatrix(int Size) {
     }
     return vec;
 }
-std::vector<double> Add(const std::vector<double> &A, const std::vector<double> B, int Size) {
+std::vector<double> Add(std::vector<double> A, const std::vector<double> B, int Size) {
     std::vector<double> C(Size);
     for (int i = 0; i < Size; i++) {
         C[i] = A[i] + B[i];
@@ -29,7 +29,7 @@ std::vector<double> Add(const std::vector<double> &A, const std::vector<double> 
     return C;
 }
 std::vector<double> Multyplication(const std::vector<double> A, const std::vector<double> B) {
-    if (A.size()!=B.size()) {
+    if (A.size() != B.size()) {
         throw std::runtime_error("Matrixes have different sizes");
     }
     std::vector<double> C(A.size());
