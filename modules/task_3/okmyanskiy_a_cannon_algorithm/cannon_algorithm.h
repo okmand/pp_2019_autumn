@@ -1,7 +1,7 @@
 // Copyright 2019 Okmyanskiy Andrey
 
-#ifndef MODULES_TASK_3_OKMYANSKIY_A_CANNON_ALGORITHM_OKMYANSKIY_A_CANNON_ALGORITHM_H_
-#define MODULES_TASK_3_OKMYANSKIY_A_CANNON_ALGORITHM_OKMYANSKIY_A_CANNON_ALGORITHM_H_
+#ifndef MODULES_TASK_3_OKMYANSKIY_A_CANNON_ALGORITHM_CANNON_ALGORITHM_H_
+#define MODULES_TASK_3_OKMYANSKIY_A_CANNON_ALGORITHM_CANNON_ALGORITHM_H_
 
 #include <mpi.h>
 #include <vector>
@@ -11,4 +11,4 @@ std::vector<double> Multyplication(const std::vector<double> A, const std::vecto
 std::vector<double> Add(std::vector<double> A, std::vector<double> B, int Size);
 std::vector<double> getParallelMultyplication(const std::vector<double> A, const std::vector<double> B);
 
-#endif  // MODULES_TASK_3_OKMYANSKIY_A_CANNON_ALGORITHM_OKMYANSKIY_A_CANNON_ALGORITHM_H_
+#endif  // MODULES_TASK_3_OKMYANSKIY_A_CANNON_ALGORITHM_CANNON_ALGORITHM_H_
