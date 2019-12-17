@@ -29,7 +29,7 @@ std::vector<double> Multyplication(const std::vector<double> A, const std::vecto
         throw std::runtime_error("Matrixes have different sizes");
     }
     std::vector<double> C(A.size());
-    int root = (int)sqrt(A.size());
+    int root = static_cast<int>(sqrt(A.size()));
     for (int i = 0; i < root; i++) {
         for (int j = 0; j < root; j++) {
             C[i*root + j] = 0;
@@ -53,7 +53,7 @@ std::vector<double> getParallelMultyplication(std::vector<double> A, std::vector
         throw std::runtime_error("The size of the matrices and the number of processes are different");
     }
     int Size = ProcNum;
-    int root = (int)sqrt(Size);
+    int root = static_cast<int>(sqrt(Size));
     double root2 = sqrt(Size);
     if (fabs(root2 - root) > DBL_EPSILON * fmax(fabs(root2), fabs(root))) {
         throw std::runtime_error("The square root of a size is not an integer");
@@ -73,7 +73,7 @@ std::vector<double> getParallelMultyplication(std::vector<double> A, std::vector
     MPI_Comm GridComm;
     int GridCoords[2];
     int dims[2] = { root, root };
-    int periods[2] = { 1,1 };
+    int periods[2] = { 1, 1 };
     MPI_Cart_create(MPI_COMM_WORLD, 2, dims, periods, 0, &GridComm);
     MPI_Cart_coords(GridComm, ProcRank, 2, GridCoords);
 
