@@ -7,6 +7,7 @@ TEST(Parallel_Topology_Line_MPI, Test_Topolgy_Line_Works) {
     int ProcRank, ProcNum;
     MPI_Comm_rank(MPI_COMM_WORLD, &ProcRank);
     MPI_Comm_size(MPI_COMM_WORLD, &ProcNum);
+
     int world = getMessage(ProcRank, ProcNum, MPI_COMM_WORLD);
     MPI_Comm LineComm = getLineComm(MPI_COMM_WORLD, ProcNum);
 
