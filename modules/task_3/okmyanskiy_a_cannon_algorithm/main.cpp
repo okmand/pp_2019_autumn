@@ -27,19 +27,19 @@ TEST(Parallel_, Test_Equals_Parallel_And_Sequintial_Size_Number_x_10) {
             std::vector<double> B = getRandomMatrix(Size*Size);
             std::vector<double> C_parallel(Size*Size);
 
-            //double TotalTimeL = 0;
-            //double startL = MPI_Wtime();
+            // double TotalTimeL = 0;
+            // double startL = MPI_Wtime();
             C_parallel = getParallelMult(A, B, Size);
-            //double endL = MPI_Wtime() - startL;
+            // double endL = MPI_Wtime() - startL;
 
             if (ProcRank == 0) {
-                //std::cout << "ProcNum: " << ProcNum;
-                //std::cout << "\nSize: " << Size << "*" << Size << "\n";
-                //double startW = MPI_Wtime();
+                // std::cout << "ProcNum: " << ProcNum;
+                // std::cout << "\nSize: " << Size << "*" << Size << "\n";
+                // double startW = MPI_Wtime();
                 std::vector<double> C_sequintial = Multyplication(A, B);
-                //double endW = MPI_Wtime() - startW;
-                //std::cout << "Parallel: " << endL;
-                //std::cout << "\nSequintial: " << endW << "\n";
+                // double endW = MPI_Wtime() - startW;
+                // std::cout << "Parallel: " << endL;
+                // std::cout << "\nSequintial: " << endW << "\n";
                 ASSERT_EQ(C_parallel, C_sequintial);
             }
         }
@@ -60,19 +60,19 @@ TEST(Parallel_, Test_Equals_Parallel_And_Sequintial_Size_Number_x_50) {
             std::vector<double> B = getRandomMatrix(Size*Size);
             std::vector<double> C_parallel(Size*Size);
 
-            //double TotalTimeL = 0;
-            //double startL = MPI_Wtime();
+            // double TotalTimeL = 0;
+            // double startL = MPI_Wtime();
             C_parallel = getParallelMult(A, B, Size);
-            //double endL = MPI_Wtime() - startL;
+            // double endL = MPI_Wtime() - startL;
 
             if (ProcRank == 0) {
-                //std::cout << "ProcNum: " << ProcNum;
-                //std::cout << "\nSize: " << Size << "*" << Size << "\n";
-                //double startW = MPI_Wtime();
+                // std::cout << "ProcNum: " << ProcNum;
+                // std::cout << "\nSize: " << Size << "*" << Size << "\n";
+                // double startW = MPI_Wtime();
                 std::vector<double> C_sequintial = Multyplication(A, B);
-                //double endW = MPI_Wtime() - startW;
-                //std::cout << "Parallel: " << endL;
-                //std::cout << "\nSequintial: " << endW << "\n";
+                // double endW = MPI_Wtime() - startW;
+                // std::cout << "Parallel: " << endL;
+                // std::cout << "\nSequintial: " << endW << "\n";
                 ASSERT_EQ(C_parallel, C_sequintial);
             }
         }
@@ -93,19 +93,19 @@ TEST(Parallel_, Test_Equals_Parallel_And_Sequintial_Size_Number_x_100) {
             std::vector<double> B = getRandomMatrix(Size*Size);
             std::vector<double> C_parallel(Size*Size);
 
-            //double TotalTimeL = 0;
-            //double startL = MPI_Wtime();
+            // double TotalTimeL = 0;
+            // double startL = MPI_Wtime();
             C_parallel = getParallelMult(A, B, Size);
-            //double endL = MPI_Wtime() - startL;
+            // double endL = MPI_Wtime() - startL;
 
             if (ProcRank == 0) {
-                //std::cout << "ProcNum: " << ProcNum;
-                //std::cout << "\nSize: " << Size << "*" << Size << "\n";
-                //double startW = MPI_Wtime();
+                // std::cout << "ProcNum: " << ProcNum;
+                // std::cout << "\nSize: " << Size << "*" << Size << "\n";
+                // double startW = MPI_Wtime();
                 std::vector<double> C_sequintial = Multyplication(A, B);
-                //double endW = MPI_Wtime() - startW;
-                //std::cout << "Parallel: " << endL;
-                //std::cout << "\nSequintial: " << endW << "\n";
+                // double endW = MPI_Wtime() - startW;
+                // std::cout << "Parallel: " << endL;
+                // std::cout << "\nSequintial: " << endW << "\n";
                 ASSERT_EQ(C_parallel, C_sequintial);
             }
         }
