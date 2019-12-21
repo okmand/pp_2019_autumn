@@ -8,7 +8,7 @@
 #include <vector>
 #include <ctime>
 #include "../../../modules/task_3/okmyanskiy_a_cannon_algorithm/cannon_algorithm.h"
-using namespace std;
+
 double epsilon = 1E-5;
 int range1 = 10;
 int range2 = 50;
@@ -18,7 +18,7 @@ TEST(Parallel_, Test_Equals_Parallel_And_Sequintial_Size_Number_x_10) {
     MPI_Comm_rank(MPI_COMM_WORLD, &ProcRank);
     MPI_Comm_size(MPI_COMM_WORLD, &ProcNum);
     int rootProcNum = static_cast<int>(sqrt(ProcNum));
-    int Size = ProcNum*range1;
+    int Size = ProcNum * range1;
     int root = static_cast<int> (sqrt(ProcNum));
     double root2 = sqrt(ProcNum);
     if (fabs(root2 - root) <= epsilon) {
@@ -27,96 +27,96 @@ TEST(Parallel_, Test_Equals_Parallel_And_Sequintial_Size_Number_x_10) {
             std::vector<double> B = getRandomMatrix(Size*Size);
             std::vector<double> C_parallel(Size*Size);
 
-            double TotalTimeL = 0;
-            double startL = MPI_Wtime();
-            C_parallel = getParallelMultyplication(A, B, Size);
-            double endL = MPI_Wtime() - startL;
+            //double TotalTimeL = 0;
+            //double startL = MPI_Wtime();
+            C_parallel = getParallelMult(A, B, Size);
+            //double endL = MPI_Wtime() - startL;
 
             if (ProcRank == 0) {
-                cout << "ProcNum: " << ProcNum;
-                cout << "\nSize: " << Size << "*" << Size << "\n";
-                double startW = MPI_Wtime();
+                //std::cout << "ProcNum: " << ProcNum;
+                //std::cout << "\nSize: " << Size << "*" << Size << "\n";
+                //double startW = MPI_Wtime();
                 std::vector<double> C_sequintial = Multyplication(A, B);
-                double endW = MPI_Wtime() - startW;
-                std::cout << "Parallel: " << endL;
-                std::cout << "\nSequintial: " << endW << "\n";
+                //double endW = MPI_Wtime() - startW;
+                //std::cout << "Parallel: " << endL;
+                //std::cout << "\nSequintial: " << endW << "\n";
                 ASSERT_EQ(C_parallel, C_sequintial);
             }
         }
     }
 }
 
-//TEST(Parallel_, Test_Equals_Parallel_And_Sequintial_Size_Number_x_50) {
-//    int ProcRank, ProcNum;
-//    MPI_Comm_rank(MPI_COMM_WORLD, &ProcRank);
-//    MPI_Comm_size(MPI_COMM_WORLD, &ProcNum);
-//    int rootProcNum = static_cast<int>(sqrt(ProcNum));
-//    int Size = ProcNum * range2;
-//    int root = static_cast<int> (sqrt(ProcNum));
-//    double root2 = sqrt(ProcNum);
-//    if (fabs(root2 - root) <= epsilon) {
-//        if ((Size*Size) % ProcNum == 0) {
-//            std::vector<double> A = getRandomMatrix(Size*Size);
-//            std::vector<double> B = getRandomMatrix(Size*Size);
-//            std::vector<double> C_parallel(Size*Size);
-//
-//            double TotalTimeL = 0;
-//            double startL = MPI_Wtime();
-//            C_parallel = getParallelMultyplication(A, B, Size);
-//            double endL = MPI_Wtime() - startL;
-//
-//            if (ProcRank == 0) {
-//                cout << "ProcNum: " << ProcNum;
-//                cout << "\nSize: " << Size << "*" << Size << "\n";
-//                double startW = MPI_Wtime();
-//                std::vector<double> C_sequintial = Multyplication(A, B);
-//                double endW = MPI_Wtime() - startW;
-//                std::cout << "Parallel: " << endL;
-//                std::cout << "\nSequintial: " << endW << "\n";
-//                ASSERT_EQ(C_parallel, C_sequintial);
-//            }
-//        }
-//    }
-//}
+TEST(Parallel_, Test_Equals_Parallel_And_Sequintial_Size_Number_x_50) {
+    int ProcRank, ProcNum;
+    MPI_Comm_rank(MPI_COMM_WORLD, &ProcRank);
+    MPI_Comm_size(MPI_COMM_WORLD, &ProcNum);
+    int rootProcNum = static_cast<int>(sqrt(ProcNum));
+    int Size = ProcNum * range2;
+    int root = static_cast<int> (sqrt(ProcNum));
+    double root2 = sqrt(ProcNum);
+    if (fabs(root2 - root) <= epsilon) {
+        if ((Size*Size) % ProcNum == 0) {
+            std::vector<double> A = getRandomMatrix(Size*Size);
+            std::vector<double> B = getRandomMatrix(Size*Size);
+            std::vector<double> C_parallel(Size*Size);
 
-//TEST(Parallel_, Test_Equals_Parallel_And_Sequintial_Size_Number_x_100) {
-//    int ProcRank, ProcNum;
-//    MPI_Comm_rank(MPI_COMM_WORLD, &ProcRank);
-//    MPI_Comm_size(MPI_COMM_WORLD, &ProcNum);
-//    int rootProcNum = static_cast<int>(sqrt(ProcNum));
-//    int Size = ProcNum * range3;
-//    int root = static_cast<int> (sqrt(ProcNum));
-//    double root2 = sqrt(ProcNum);
-//    if (fabs(root2 - root) <= epsilon) {
-//        if ((Size*Size) % ProcNum == 0) {
-//            std::vector<double> A = getRandomMatrix(Size*Size);
-//            std::vector<double> B = getRandomMatrix(Size*Size);
-//            std::vector<double> C_parallel(Size*Size);
-//
-//            double TotalTimeL = 0;
-//            double startL = MPI_Wtime();
-//            C_parallel = getParallelMultyplication(A, B, Size);
-//            double endL = MPI_Wtime() - startL;
-//
-//            if (ProcRank == 0) {
-//                cout << "ProcNum: " << ProcNum;
-//                cout << "\nSize: " << Size << "*" << Size << "\n";
-//                double startW = MPI_Wtime();
-//                std::vector<double> C_sequintial = Multyplication(A, B);
-//                double endW = MPI_Wtime() - startW;
-//                std::cout << "Parallel: " << endL;
-//                std::cout << "\nSequintial: " << endW << "\n";
-//                ASSERT_EQ(C_parallel, C_sequintial);
-//            }
-//        }
-//    }
-//}
+            //double TotalTimeL = 0;
+            //double startL = MPI_Wtime();
+            C_parallel = getParallelMult(A, B, Size);
+            //double endL = MPI_Wtime() - startL;
+
+            if (ProcRank == 0) {
+                //std::cout << "ProcNum: " << ProcNum;
+                //std::cout << "\nSize: " << Size << "*" << Size << "\n";
+                //double startW = MPI_Wtime();
+                std::vector<double> C_sequintial = Multyplication(A, B);
+                //double endW = MPI_Wtime() - startW;
+                //std::cout << "Parallel: " << endL;
+                //std::cout << "\nSequintial: " << endW << "\n";
+                ASSERT_EQ(C_parallel, C_sequintial);
+            }
+        }
+    }
+}
+
+TEST(Parallel_, Test_Equals_Parallel_And_Sequintial_Size_Number_x_100) {
+    int ProcRank, ProcNum;
+    MPI_Comm_rank(MPI_COMM_WORLD, &ProcRank);
+    MPI_Comm_size(MPI_COMM_WORLD, &ProcNum);
+    int rootProcNum = static_cast<int>(sqrt(ProcNum));
+    int Size = ProcNum * range3;
+    int root = static_cast<int> (sqrt(ProcNum));
+    double root2 = sqrt(ProcNum);
+    if (fabs(root2 - root) <= epsilon) {
+        if ((Size*Size) % ProcNum == 0) {
+            std::vector<double> A = getRandomMatrix(Size*Size);
+            std::vector<double> B = getRandomMatrix(Size*Size);
+            std::vector<double> C_parallel(Size*Size);
+
+            //double TotalTimeL = 0;
+            //double startL = MPI_Wtime();
+            C_parallel = getParallelMult(A, B, Size);
+            //double endL = MPI_Wtime() - startL;
+
+            if (ProcRank == 0) {
+                //std::cout << "ProcNum: " << ProcNum;
+                //std::cout << "\nSize: " << Size << "*" << Size << "\n";
+                //double startW = MPI_Wtime();
+                std::vector<double> C_sequintial = Multyplication(A, B);
+                //double endW = MPI_Wtime() - startW;
+                //std::cout << "Parallel: " << endL;
+                //std::cout << "\nSequintial: " << endW << "\n";
+                ASSERT_EQ(C_parallel, C_sequintial);
+            }
+        }
+    }
+}
 
 TEST(Parallel_, Test_Different_Size_Sequintial) {
     int ProcRank, ProcNum;
     MPI_Comm_rank(MPI_COMM_WORLD, &ProcRank);
     MPI_Comm_size(MPI_COMM_WORLD, &ProcNum);
-    int Size = ProcNum*range1;
+    int Size = ProcNum * range1;
     std::vector<double> A = getRandomMatrix(Size*Size);
     std::vector<double> B = getRandomMatrix(Size*Size + 1);
     if (ProcRank == 0) {
@@ -128,23 +128,11 @@ TEST(Parallel, Test_Different_Size_Parallel) {
     int ProcRank, ProcNum;
     MPI_Comm_size(MPI_COMM_WORLD, &ProcNum);
     MPI_Comm_rank(MPI_COMM_WORLD, &ProcRank);
-    int Size = ProcNum*range1;
+    int Size = ProcNum * range1;
     std::vector<double> A = getRandomMatrix(Size*Size);
     std::vector<double> B = getRandomMatrix(Size*Size + 1);
     if (ProcRank == 0) {
-        ASSERT_ANY_THROW(getParallelMultyplication(A, B, Size));
-    }
-}
-
-TEST(Parallel, Test_Different_ProcNum_And_Size_Matrix) {
-    int ProcRank, ProcNum;
-    MPI_Comm_rank(MPI_COMM_WORLD, &ProcRank);
-    MPI_Comm_size(MPI_COMM_WORLD, &ProcNum);
-    int Size = ProcNum*range1+1;
-    std::vector<double> A = getRandomMatrix(Size*Size);
-    std::vector<double> B = getRandomMatrix(Size*Size);
-    if (ProcRank == 0) {
-        ASSERT_ANY_THROW(getParallelMultyplication(A, B, Size));
+        ASSERT_ANY_THROW(getParallelMult(A, B, Size));
     }
 }
 

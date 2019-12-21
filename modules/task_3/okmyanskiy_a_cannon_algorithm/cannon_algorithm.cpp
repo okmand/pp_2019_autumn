@@ -5,7 +5,7 @@
 #include <ctime>
 #include <stdexcept>
 #include "../../../modules/task_3/okmyanskiy_a_cannon_algorithm/cannon_algorithm.h"
-using namespace std;
+
 double eps = 1E-10;
 std::vector<double> getRandomMatrix(int Size) {
     if (Size <= 0) {
@@ -14,7 +14,7 @@ std::vector<double> getRandomMatrix(int Size) {
     static int s_count = 0;
     ++s_count;
     std::mt19937 gen;
-    gen.seed(static_cast<unsigned int>(time(0)+s_count));
+    gen.seed(static_cast<unsigned int>(time(0) + s_count));
     std::vector<double> vec(Size);
     for (int i = 0; i < Size; i++) {
         vec[i] = gen() % 100;
@@ -45,7 +45,8 @@ std::vector<double> Multyplication(const std::vector<double> A, const std::vecto
     return C;
 }
 
-std::vector<double> getParallelMultyplication(const std::vector<double> A, const std::vector<double> B, const int MatrSize) {
+std::vector<double> getParallelMult(const std::vector<double> A,
+    const std::vector<double> B, const int MatrSize) {
     if (A.size() != B.size()) {
         throw std::runtime_error("Matrixes have different sizes");
     }
@@ -53,10 +54,10 @@ std::vector<double> getParallelMultyplication(const std::vector<double> A, const
     MPI_Status Status;
     MPI_Comm_size(MPI_COMM_WORLD, &ProcNum);
     MPI_Comm_rank(MPI_COMM_WORLD, &ProcRank);
-    if ((MatrSize*MatrSize)%ProcNum!=0) {
+    if ((MatrSize*MatrSize) % ProcNum != 0) {
         throw std::runtime_error("The size of the matrix does not meet the conditions of the job");
     }
-    int Size = static_cast<int>(MatrSize*MatrSize/ProcNum);
+    int Size = static_cast<int>(MatrSize*MatrSize / ProcNum);
     int root = static_cast<int>(sqrt(Size));
     double rootTemp = sqrt(ProcNum);
     int rootProcNum = static_cast<int>(sqrt(ProcNum));
@@ -118,7 +119,8 @@ std::vector<double> getParallelMultyplication(const std::vector<double> A, const
             BlockA[i] = A[i + j * root*(rootProcNum - 1)];
             BlockB[i] = B[i + j * root*(rootProcNum - 1)];
         }
-    } else {
+    }
+    else {
         MPI_Recv(&BlockA[0], 1, type2, 0, 1, MPI_COMM_WORLD, &Status);
         MPI_Recv(&BlockB[0], 1, type2, 0, 2, MPI_COMM_WORLD, &Status);
     }
@@ -145,7 +147,8 @@ std::vector<double> getParallelMultyplication(const std::vector<double> A, const
                 }
             }
         }
-    } else {
+    }
+    else {
         MPI_Send(&BlockC[0], 1, type2, 0, 4, MPI_COMM_WORLD);
     }
     MPI_Type_free(&type);
