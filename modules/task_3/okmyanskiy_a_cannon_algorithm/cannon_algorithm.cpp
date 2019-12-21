@@ -119,8 +119,7 @@ std::vector<double> getParallelMult(const std::vector<double> A,
             BlockA[i] = A[i + j * root*(rootProcNum - 1)];
             BlockB[i] = B[i + j * root*(rootProcNum - 1)];
         }
-    }
-    else {
+    } else {
         MPI_Recv(&BlockA[0], 1, type2, 0, 1, MPI_COMM_WORLD, &Status);
         MPI_Recv(&BlockB[0], 1, type2, 0, 2, MPI_COMM_WORLD, &Status);
     }
@@ -147,8 +146,7 @@ std::vector<double> getParallelMult(const std::vector<double> A,
                 }
             }
         }
-    }
-    else {
+    } else {
         MPI_Send(&BlockC[0], 1, type2, 0, 4, MPI_COMM_WORLD);
     }
     MPI_Type_free(&type);
