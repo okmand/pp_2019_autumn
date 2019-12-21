@@ -17,7 +17,6 @@ TEST(Parallel_, Test_Equals_Parallel_And_Sequintial_Size_Number_x_10) {
     int ProcRank, ProcNum;
     MPI_Comm_rank(MPI_COMM_WORLD, &ProcRank);
     MPI_Comm_size(MPI_COMM_WORLD, &ProcNum);
-    int rootProcNum = static_cast<int>(sqrt(ProcNum));
     int Size = ProcNum * range1;
     int root = static_cast<int> (sqrt(ProcNum));
     double root2 = sqrt(ProcNum);
@@ -50,7 +49,6 @@ TEST(Parallel_, Test_Equals_Parallel_And_Sequintial_Size_Number_x_50) {
     int ProcRank, ProcNum;
     MPI_Comm_rank(MPI_COMM_WORLD, &ProcRank);
     MPI_Comm_size(MPI_COMM_WORLD, &ProcNum);
-    int rootProcNum = static_cast<int>(sqrt(ProcNum));
     int Size = ProcNum * range2;
     int root = static_cast<int> (sqrt(ProcNum));
     double root2 = sqrt(ProcNum);
@@ -83,7 +81,6 @@ TEST(Parallel_, Test_Equals_Parallel_And_Sequintial_Size_Number_x_100) {
     int ProcRank, ProcNum;
     MPI_Comm_rank(MPI_COMM_WORLD, &ProcRank);
     MPI_Comm_size(MPI_COMM_WORLD, &ProcNum);
-    int rootProcNum = static_cast<int>(sqrt(ProcNum));
     int Size = ProcNum * range3;
     int root = static_cast<int> (sqrt(ProcNum));
     double root2 = sqrt(ProcNum);
