@@ -5,6 +5,8 @@
 #include <algorithm>
 #include "../../../modules/task_3/yasakova_a_linear_filtering/linear_filtering.h"
 
+
+
 TEST(Linear_Filtering_MPI, test1) {
     int rank;
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
@@ -25,30 +27,21 @@ TEST(Linear_Filtering_MPI, test2) {
 }
 
 TEST(Linear_Filtering_MPI, test3) {
-    int rows = 3, cols = 3;
-    std::vector <int> mask = { 0, 1, 0, 1, -4, 1, 0, 1, 0 };
+    int rows = 4, cols = 5;
+    std::vector <int> mask = { 1, 2, 1, 2, 4, 2, 1, 2, 1 };
     std::vector <int> a(rows * cols), ans_seq(rows * cols);
     int rank;
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
     if (rank == 0) {
-        a[0] = 150;
-        a[1] = 128;
-        a[2] = 100;
-        a[3] = 200;
-        a[4] = 175;
-        a[5] = 100;
-        a[6] = 50;
-        a[7] = 250;
-        a[8] = 200;
-        ans_seq[0] = 28;
-        ans_seq[1] = 41;
-        ans_seq[2] = 28;
-        ans_seq[3] = -225;
-        ans_seq[4] = -22;
-        ans_seq[5] = 175;
-        ans_seq[6] = 350;
-        ans_seq[7] = -325;
-        ans_seq[8] = -50;
+        a = { 150, 128, 100, 200, 175,
+            100, 50, 250, 200, 255,
+            0, 50, 75, 225, 130,
+            145, 200, 30, 230, 100 };
+
+        ans_seq = { 130, 123, 145, 183, 196,
+            83, 98, 153, 196, 204,
+            67, 85, 130, 175, 172,
+            118, 132, 95, 172, 129 };
     }
     std::vector <int> ans(rows * cols);
     ans = ParallelLinearFilter(mask, a, rows, cols);
@@ -58,7 +51,7 @@ TEST(Linear_Filtering_MPI, test3) {
 }
 
 TEST(Linear_Filtering_MPI, test4) {
-    int rows = 10, cols = 10;
+    int rows = 40, cols = 80;
     std::vector <int> mask = { 1, 2, 1, 2, 4, 2, 1, 2, 1 };
     std::vector <int> a(rows * cols);
     int rank;
@@ -76,7 +69,7 @@ TEST(Linear_Filtering_MPI, test4) {
 }
 
 TEST(Linear_Filtering_MPI, test5) {
-    int rows = 20, cols = 40;
+    int rows = 400, cols = 320;
     std::vector <int> mask = { 1, 2, 1, 2, 4, 2, 1, 2, 1 };
     std::vector <int> a(rows * cols);
     int rank;
@@ -99,7 +92,7 @@ int main(int argc, char** argv) {
 
     ::testing::AddGlobalTestEnvironment(new GTestMPIListener::MPIEnvironment);
     ::testing::TestEventListeners& listeners =
-       ::testing::UnitTest::GetInstance()->listeners();
+        ::testing::UnitTest::GetInstance()->listeners();
 
     listeners.Release(listeners.default_result_printer());
     listeners.Release(listeners.default_xml_generator());

@@ -13,7 +13,7 @@ constexpr unsigned char sumMask {16};
 
 std::vector<unsigned char> getRandomImage(int _cols, int _rows);
 
-unsigned char changePixel(std::vector<unsigned char> _source, int x, int y, int rows, int cols);
+unsigned char changePixel(const std::vector<unsigned char> &_source, int x, int y, int rows, int cols);
 
 std::vector<unsigned char> filterImageParallel(std::vector<unsigned char> source, int rows, int cols);
 std::vector<unsigned char> filterImageSequential(std::vector<unsigned char> source, int rows, int cols);

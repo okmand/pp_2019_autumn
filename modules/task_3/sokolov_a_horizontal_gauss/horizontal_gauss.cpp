@@ -20,7 +20,7 @@ std::vector<unsigned char> getRandomImage(int _cols, int _rows) {
   return image;
 }
 
-unsigned char changePixel(std::vector<unsigned char> source, int _x, int _y, int rows, int cols) {
+unsigned char changePixel(const std::vector<unsigned char> &source, int _x, int _y, int rows, int cols) {
   int sum = 0;
   for (int i = -1; i < 2; ++i) {
     for (int j = -1; j < 2; ++j) {
@@ -68,17 +68,11 @@ std::vector<unsigned char> filterImageParallel(std::vector<unsigned char> source
   const int interval      = rows / comm_size;  // how many lines will send to processes != 0
   const int last_interval = rows % comm_size;  // residue to 0'th process
 
-  std::vector<std::vector<unsigned char>> recvResult(comm_size - 1);
-
   if (rank == 0) {
 #ifdef DEBUG
     std::cout << "Interval: " << interval << std::endl;
     std::cout << "Last Interval: " << last_interval << std::endl;
 #endif  // DEBUG
-
-    for (int i = 0; i < comm_size - 1; ++i) {
-      recvResult[i].resize(interval * cols, 0);
-    }
   }
 
   std::vector<unsigned char> localImage(interval * cols + 2 * cols);
@@ -93,6 +87,12 @@ std::vector<unsigned char> filterImageParallel(std::vector<unsigned char> source
     }
     std::cout << std::endl;
 #endif  // DEBUG
+    if (comm_size != 1) {
+      localImage.resize((interval + last_interval + 1) * cols);
+      for (int i = 0; i < (interval + last_interval + 1) * cols; ++i) {
+        localImage[i] = source[i];
+      }
+    }
 
     for (int proc = 1; proc < comm_size; proc++) {
       int startAdress = (proc * interval * cols) + (last_interval - 1) * cols;
@@ -113,16 +113,16 @@ std::vector<unsigned char> filterImageParallel(std::vector<unsigned char> source
       localImage.resize((interval + 1) * cols);
       MPI_Recv(&localImage[0], (interval + 1) * cols, MPI_UNSIGNED_CHAR, 0, 0, MPI_COMM_WORLD, &status);
     }
+  }
 
 #ifdef DEBUG
-    std::cout << "{" << rank << "}" << "Local Image" << " | Size: " << localImage.size() << std::endl;
-    for (int i = 0; i < localImage.size(); ++i) {
-      std::cout << (unsigned int)localImage[i] << " ";
-      if ((i + 1) % cols == 0) std::cout << std::endl;
-    }
-    std::cout << std::endl;
-#endif  // DEBUG
+  std::cout << "{" << rank << "}" << "Local Image" << " | Size: " << localImage.size() << std::endl;
+  for (int i = 0; i < localImage.size(); ++i) {
+    std::cout << (unsigned int)localImage[i] << " ";
+    if ((i + 1) % cols == 0) std::cout << std::endl;
   }
+  std::cout << std::endl;
+#endif  // DEBUG
 
   if (rank == comm_size - 1 && comm_size != 1) {
     for (int i = 1; i < interval + 1; ++i)
@@ -151,9 +151,15 @@ std::vector<unsigned char> filterImageParallel(std::vector<unsigned char> source
     std::cout << std::endl;
 #endif  // DEBUG
   } else {
-    for (int i = 0; i < interval + last_interval; ++i)
-      for (int j = 0; j < cols; ++j)
-        globalResult[i * cols + j] = changePixel(source, i, j, rows, cols);
+    if (comm_size != 1) {
+      for (int i = 0; i < interval + last_interval; ++i)
+        for (int j = 0; j < cols; ++j)
+          globalResult[i * cols + j] = changePixel(localImage, i, j, interval + last_interval + 1, cols);
+    } else {
+      for (int i = 0; i < rows; ++i)
+        for (int j = 0; j < cols; ++j)
+          globalResult[i * cols + j] = changePixel(source, i, j, rows, cols);
+    }
   }
 
   if (rank != 0) {
